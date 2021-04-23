@@ -6,6 +6,7 @@ from reconbot.tasks import esi_notification_task
 from reconbot.notifiers.caching import CachingNotifier
 from reconbot.notifiers.discordwebhook import DiscordWebhookNotifier
 from reconbot.notifiers.splitter import SplitterNotifier
+from reconbot.notifiers.stdout import StdOutNotifier
 from reconbot.apiqueue import ApiQueue
 from reconbot.esi import ESI
 from reconbot.sso import SSO
@@ -20,6 +21,21 @@ sso_app_secret_key          = os.getenv("SSO_APP_SECRET_KEY")
 character_one_name          = os.getenv("CHARACTER_ONE_NAME")
 character_one_id            = int(os.getenv("CHARACTER_ONE_ID"))
 character_one_token         = os.getenv("CHARACTER_ONE_TOKEN")
+character_two_name          = os.getenv("CHARACTER_TWO_NAME")
+character_two_id            = int(os.getenv("CHARACTER_TWO_ID"))
+character_two_token         = os.getenv("CHARACTER_TWO_TOKEN")
+character_three_name          = os.getenv("CHARACTER_THREE_NAME")
+character_three_id            = int(os.getenv("CHARACTER_THREE_ID"))
+character_three_token         = os.getenv("CHARACTER_THREE_TOKEN")
+character_four_name          = os.getenv("CHARACTER_FOUR_NAME")
+character_four_id            = int(os.getenv("CHARACTER_FOUR_ID"))
+character_four_token         = os.getenv("CHARACTER_FOUR_TOKEN")
+character_five_name          = os.getenv("CHARACTER_FIVE_NAME")
+character_five_id            = int(os.getenv("CHARACTER_FIVE_ID"))
+character_five_token         = os.getenv("CHARACTER_FIVE_TOKEN")
+character_six_name          = os.getenv("CHARACTER_SIX_NAME")
+character_six_id            = int(os.getenv("CHARACTER_SIX_ID"))
+character_six_token         = os.getenv("CHARACTER_SIX_TOKEN")
 
 discord = {
     'webhook': {
@@ -36,25 +52,37 @@ eve_apis = {
     'logistics-team': {
         'notifications': {
             'whitelist': [
+                'AllyJoinedWarAggressorMsg',
+                'CorpWarSurrenderMsg',
+                'OwnershipTransferred',
+                'MoonminingExtractionFinished',
+                'SovAllClaimAquiredMsg',
+                'SovAllClaimLostMsg',
+                'SovStationEnteredFreeport',
                 'SovStructureDestroyed',
                 'SovStructureReinforced',
-                'StructureUnderAttack',
-                'OwnershipTransferred',
-                'StructureOnline',
-                'StructureFuelAlert',
-                'StructureAnchoring',
-                'StructureServicesOffline',
-                'StructureLostShields',
-                'StructureLostArmor',
-                'TowerAlertMsg',
-                'StationServiceEnabled',
-                'StationServiceDisabled',
-                'SovAllClaimAquiredMsg',
-                'SovStationEnteredFreeport',
-                'SovAllClaimLostMsg',
-                'SovStructureSelfDestructRequested',
                 'SovStructureSelfDestructFinished',
+                'SovStructureSelfDestructRequested',
                 'StationConquerMsg',
+                'StationServiceDisabled',
+                'StationServiceEnabled',
+                'StructureAnchoring',
+                'StructureFuelAlert',
+                'StructureLostArmor',
+                'StructureLostShields',
+                'StructureOnline',
+                'StructureOnline',
+                'StructureServicesOffline',
+                'StructureUnanchoring',
+                'StructureUnderAttack',
+                'StructureWentHighPower',
+                'StructureWentLowPower',
+                'TowerAlertMsg',
+                'WarAdopted ',
+                'WarDeclared',
+                'WarInherited',
+                'WarInvalid',
+                'WarRetractedByConcord',
             ],
         },
         'characters': {
@@ -62,6 +90,31 @@ eve_apis = {
                 'character_name': character_one_name,
                 'character_id': character_one_id,
                 'refresh_token': character_one_token
+            },
+            character_two_name: {
+                'character_name': character_two_name,
+                'character_id': character_two_id,
+                'refresh_token': character_two_token
+            },
+            character_three_name: {
+                'character_name': character_three_name,
+                'character_id': character_three_id,
+                'refresh_token': character_three_token
+            },
+            character_four_name: {
+                'character_name': character_four_name,
+                'character_id': character_four_id,
+                'refresh_token': character_four_token
+            },
+            character_five_name: {
+                'character_name': character_five_name,
+                'character_id': character_five_id,
+                'refresh_token': character_five_token
+            },
+            character_six_name: {
+                'character_name': character_six_name,
+                'character_id': character_six_id,
+                'refresh_token': character_six_token
             },
         },
     }
@@ -71,7 +124,8 @@ my_discord_channels = CachingNotifier(
     SplitterNotifier([
         DiscordWebhookNotifier(
             discord['webhook']['url']
-        )
+        ),
+        StdOutNotifier(),
     ]),
     duration=7200
 )
