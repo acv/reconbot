@@ -4,3 +4,4 @@ PyYAML==4.2b1
 requests==2.20.0
 schedule==0.3.2
 discord.py==0.16.10
+python-dotenv==0.17.0
