@@ -14,11 +14,18 @@ class Printer(object):
         text = self.get_notification_text(notification)
         timestamp = self.timestamp_to_date(notification['timestamp'])
         ping = ':gasp:'
+        
+        content = yaml.load(notification['text'])
 
         if notification['type'] == 'StructureUnderAttack':
-            ping = ':scream: @whoeverthefuckisleadership '
+            if content['charID'] == 1000134:
+                ping = ':scream: :blooders: '
+                notification['type'] = 'StructureUnderAttackBlooder'
+                text = self.get_notification_text(notification)
+            else:
+                ping = ':scream: @everyone '
         elif notification['type'] == 'StructureFuelAlert' or notification['type'] == 'StructureServicesOffline':
-            ping = ':fuelpump: @whoeverthefuckisleadership '
+            ping = ':fuelpump: @everyone '
 
         return '%s `[%s]` %s' % (ping, timestamp, text)
 
@@ -35,6 +42,7 @@ class Printer(object):
             'SovStructureDestroyed': self.sov_structure_destroyed,
             'SovStructureReinforced': self.sov_structure_reinforced,
             'StructureUnderAttack': self.citadel_attacked,
+            'StructureUnderAttackBlooder': self.citadel_attacked_by_blooders,
             'OwnershipTransferred': self.structure_transferred,
             'StructureOnline': self.citadel_onlined,
             'StructureDestroyed': self.citadel_destroyed,
@@ -86,6 +94,9 @@ class Printer(object):
         }
 
         if notification['type'] in types:
+            print("-------------")
+            print(notification['text'])
+            print("---")
             text = yaml.load(notification['text'])
             text['notification_timestamp'] = notification['timestamp']
             template = types[notification['type']]()
@@ -173,6 +184,9 @@ class Printer(object):
 
     def citadel_attacked(self):
         return 'Citadel (__**{0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}"**__) attacked ({0:get_percentage(shieldPercentage)} shield, {0:get_percentage(armorPercentage)} armor, {0:get_percentage(hullPercentage)} hull) in {0:get_system(solarsystemID)} by {0:get_character(charID)}'
+
+    def citadel_attacked_by_blooders(self):
+        return 'Citadel (__**{0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}"**__) attacked in {0:get_system(solarsystemID)} by blooders.'
 
     def citadel_onlined(self):
         return 'Citadel ({0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}") onlined in {0:get_system(solarsystemID)}'

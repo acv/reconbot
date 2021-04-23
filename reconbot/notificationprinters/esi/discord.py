@@ -30,7 +30,7 @@ class Discord(Printer):
         except requests.HTTPError as ex:
             # Patch for character being unresolvable and ESI throwing internal errors
             # Temporarily stub character to not break our behavior.
-            if ex.response.status_code == 500:
+            if ex.response.status_code == 500 or ex.response.status_code == 404:
                 character = { 'name': 'Unknown character', 'corporation_id': 98356193 }
             else:
                 raise
