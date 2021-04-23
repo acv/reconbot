@@ -1,20 +1,21 @@
 import re
 
+
 class Formatter(object):
 
     def __init__(self, printer, notification):
         self.printer = printer
         self.notification = notification
 
-    def __format__(self, format):
+    def __format__(self, format_string):
         pattern = r'([a-zA-Z_]+)\(([a-zA-Z_]+)(?:\s*,\s*([a-zA-Z_]+))?\)'
-        matches = re.match(pattern, format)
+        matches = re.match(pattern, format_string)
         if not matches:
-            return format
+            return format_string
         groups = matches.groups()
 
         if not hasattr(self.printer, groups[0]):
-            raise Exception('Unknown method "%s" in format "%s"' % (matches.group(1), format))
+            raise Exception('Unknown method "%s" in format "%s"' % (matches.group(1), format_string))
 
         method = getattr(self.printer, groups[0])
 

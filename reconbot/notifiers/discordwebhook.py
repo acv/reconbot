@@ -1,11 +1,12 @@
-import json
 import requests
+
 
 class DiscordWebhookNotifier:
     def __init__(self, url):
         self.url = url
 
-    def notify(self, text, options={}):
+    # noinspection PyUnusedLocal
+    def notify(self, text, options=None):
         return self._send_message(text)
 
     def _send_message(self, message):

@@ -1,6 +1,6 @@
-import abc
 import requests
 from reconbot.notificationprinters.esi.printer import Printer
+
 
 class Discord(Printer):
 
@@ -31,7 +31,7 @@ class Discord(Printer):
             # Patch for character being unresolvable and ESI throwing internal errors
             # Temporarily stub character to not break our behavior.
             if ex.response.status_code == 500 or ex.response.status_code == 404:
-                character = { 'name': 'Unknown character', 'corporation_id': 98356193 }
+                character = {'name': 'Unknown character', 'corporation_id': 98356193}
             else:
                 raise
 

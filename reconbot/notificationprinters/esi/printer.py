@@ -311,7 +311,7 @@ class Printer(object):
         return
 
     @abc.abstractmethod
-    def get_killmail(self, kill_id):
+    def get_killmail(self, kill_id, kill_hash):
         return
 
     def get_campaign_event_type(self, event_type):
