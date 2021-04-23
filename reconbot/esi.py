@@ -1,8 +1,8 @@
 import requests
-import base64
 import functools
 import datetime
 import time
+
 
 class ESI:
     def __init__(self, sso):
@@ -36,7 +36,8 @@ class ESI:
                 notifications),
             key=lambda notification: notification['timestamp'])
 
-    def is_recent_notification(self, timestamp, max_age=None):
+    @staticmethod
+    def is_recent_notification(timestamp, max_age=None):
         if not max_age:
             return True
 
@@ -80,7 +81,9 @@ class ESI:
             '/latest/killmails/%d/%s/' % (killmail_id, killmail_hash)
         )
 
-    def esi_get(self, endpoint, query={}):
+    def esi_get(self, endpoint, query=None):
+        if query is None:
+            query = {}
         max_attempts = 3
         failed_request_delay = 10
 
@@ -95,7 +98,7 @@ class ESI:
             if r.status_code == 200:
                 response = r.json()
                 return response
-            elif r.status_code >= 500 and r.status_code < 600 and attempt < max_attempts:
+            elif 500 <= r.status_code < 600 and attempt < max_attempts:
                 json = r.json()
                 if r.status_code == 500 and 'response' in json:
                     return json['response']

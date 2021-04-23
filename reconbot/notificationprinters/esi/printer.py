@@ -4,6 +4,7 @@ import yaml
 
 from reconbot.notificationprinters.esi.formatter import Formatter
 
+
 class Printer(object):
     __metaclass__ = abc.ABCMeta
 
