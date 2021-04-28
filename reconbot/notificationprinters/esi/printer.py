@@ -4,7 +4,6 @@ import yaml
 
 from reconbot.notificationprinters.esi.formatter import Formatter
 
-
 class Printer(object):
     __metaclass__ = abc.ABCMeta
 
@@ -89,6 +88,7 @@ class Printer(object):
             'KillReportVictim': self.kill_report_victim,
             'KillReportFinalBlow': self.kill_report_final_blow,
             'AllianceCapitalChanged': self.alliance_capital_changed,
+            'WarRetractedByConcord': self.war_retracted_by_concord,
 
             # kept for older messages
             'notificationTypeMoonminingExtractionStarted': self.moon_extraction_started,
@@ -105,7 +105,7 @@ class Printer(object):
             rendered_notification = template.format(Formatter(self, text)) 
             return rendered_notification
 
-        return 'Unknown notification type for printing'
+        return 'Unknown notification type for printing [' + notification['type'] + ']'
 
     def corporation_war_declared(self):
         return 'War has been declared to {0:get_corporation_or_alliance(againstID)} by {0:get_corporation_or_alliance(declaredByID)}'
@@ -113,9 +113,11 @@ class Printer(object):
     def declare_war(self):
         return '{0:get_character(charID)} from {0:get_corporation_or_alliance(entityID)} has declared war to {0:get_corporation_or_alliance(defenderID)}'
 
-
     def corporation_war_invalidated(self):
-        return 'War has been invalidated to {0:get_corporation_or_alliance(againstID)} by {0:get_corporation_or_alliance(declaredByID)}'
+        return 'War against {0:get_corporation_or_alliance(againstID)} has been invalidated by {0:get_corporation_or_alliance(declaredByID)}'
+
+    def war_retracted_by_concord(self):
+        return 'War against {0:get_corporation_or_alliance(againstID)} has been invalidated by CONCORD'
 
     def aggressor_ally_joined_war(self):
         return 'Ally {0:get_corporation_or_alliance(allyID)} joined the war to help {0:get_corporation_or_alliance(defenderID)} starting {0:eve_timestamp_to_date(startTime)}'
@@ -312,7 +314,7 @@ class Printer(object):
         return
 
     @abc.abstractmethod
-    def get_killmail(self, kill_id, kill_hash):
+    def get_killmail(self, kill_id):
         return
 
     def get_campaign_event_type(self, event_type):
