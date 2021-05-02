@@ -4,5 +4,5 @@ class StdOutNotifier:
 
     # noinspection PyUnusedLocal
     @staticmethod
-    def notify(text, options=None):
+    def notify(notification, text, options=None):
         print('StdOutNotifier:', text)

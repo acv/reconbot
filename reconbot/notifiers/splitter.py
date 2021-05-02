@@ -4,8 +4,8 @@ class SplitterNotifier:
             notifiers = []
         self.notifiers = notifiers
 
-    def notify(self, text, options=None):
+    def notify(self, notification, text, options=None):
         if options is None:
             options = {}
         for notifier in self.notifiers:
-            notifier.notify(text, options)
+            notifier.notify(notification, text, options)

@@ -13,7 +13,8 @@ class CachingNotifier:
         self.blooder_duration = duration * 4
         self.blooder_ts_re = re.compile(r'[:]blooders[:][ ]{2}`[^`]*`')
 
-    def notify(self, text, options=None):
+    # noinspection PyUnusedLocal
+    def notify(self, notification, text, options=None):
         if options is None:
             options = {}
         if not self._is_cached(text):

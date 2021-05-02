@@ -24,10 +24,12 @@ def esi_notification_task(notification_options, api_queue, printer, notifier):
         
         printer = ESIDiscord(esi)        
 
-        messages = map(lambda text: printer.transform(text), notifications)
+        messages = []
+        for notification in notifications:
+            messages.append((notification, printer.transform(notification)))
 
-        for message in messages:
-            notifier.notify(message)
+        for notification, message in messages:
+            notifier.notify(notification, message)
 
     except Exception as e:
         notify_exception("esi_notification_task", e)

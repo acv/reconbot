@@ -6,7 +6,7 @@ class DiscordWebhookNotifier:
         self.url = url
 
     # noinspection PyUnusedLocal
-    def notify(self, text, options=None):
+    def notify(self, notification, text, options=None):
         return self._send_message(text)
 
     def _send_message(self, message):
