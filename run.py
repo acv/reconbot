@@ -167,7 +167,8 @@ def notifications_job_logistics():
 
 def run_and_schedule(characters, notifications_job):
     notifications_job()
-    schedule.every(math.floor(notification_caching_timer/len(characters))).minutes.do(notifications_job)
+
+    schedule.every(math.ceil(notification_caching_timer/len(characters))).minutes.do(notifications_job)
 
 
 run_and_schedule(eve_apis['logistics-team']['characters'], notifications_job_logistics)
