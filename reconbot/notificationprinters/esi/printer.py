@@ -39,6 +39,7 @@ class Printer(object):
             'AllWarInvalidatedMsg': self.corporation_war_invalidated,
             'AllyJoinedWarAggressorMsg': self.aggressor_ally_joined_war,
             'CorpWarDeclaredMsg': self.corporation_war_declared,
+            'WarDeclared': self.corporation_war_declared,
             'EntosisCaptureStarted': self.entosis_capture_started,
             'SovCommandNodeEventStarted': self.sov_structure_command_nodes_decloaked,
             'SovStructureDestroyed': self.sov_structure_destroyed,
