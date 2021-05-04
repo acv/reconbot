@@ -99,7 +99,11 @@ class ESI:
                 response = r.json()
                 return response
             elif 500 <= r.status_code < 600 and attempt < max_attempts:
-                json = r.json()
+                json = {}
+                try:
+                    json = r.json()
+                except json.decoder.JSONDecodeError:
+                    print('No JSON to decode')
                 if r.status_code == 500 and 'response' in json:
                     return json['response']
                 print('Delaying as server recovery attempt')

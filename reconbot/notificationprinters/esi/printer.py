@@ -392,7 +392,7 @@ class Printer(object):
         return
 
     @abc.abstractmethod
-    def get_killmail(self, kill_id):
+    def get_killmail(self, kill_id, killmail_hash):
         return
 
     @staticmethod
