@@ -5,6 +5,8 @@ import time
 import os
 import logging
 
+from logging.handlers import TimedRotatingFileHandler
+
 from reconbot.tasks import esi_notification_task
 from reconbot.notifiers.caching import CachingNotifier
 from reconbot.notifiers.discordwebhook import DiscordWebhookNotifier
@@ -17,8 +19,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-logging.basicConfig(format='[%(asctime)s][%(name)s][%(levelname)s] %(message)s', filename='reconbot.log',
-                    level=logging.DEBUG)
+log_handler = TimedRotatingFileHandler('reconbot.log', when="d", interval=7, backupCount=4)
+log_handler.setFormatter(logging.Formatter('[%(asctime)s][%(name)s][%(levelname)s] %(message)s'))
+
+logger = logging.getLogger()
+logger.addHandler(log_handler)
+logger.setLevel(logging.DEBUG)
+
 
 notification_caching_timer = 5
 webhook_url = os.getenv("WEBHOOK_URL")
