@@ -19,7 +19,7 @@ class CachingNotifier:
             options = {}
         if not self._is_cached(text):
             self._cache(text)
-            self.notifier.notify(text, options)
+            self.notifier.notify(notification, text, options)
 
         self._cleanup()
 
