@@ -36,10 +36,10 @@ class Printer(object):
         types = {
             'AllWarDeclaredMsg': self.corporation_war_declared,
             'DeclareWar': self.declare_war,
+            'WarDeclared': self.war_declared,
             'AllWarInvalidatedMsg': self.corporation_war_invalidated,
             'AllyJoinedWarAggressorMsg': self.aggressor_ally_joined_war,
             'CorpWarDeclaredMsg': self.corporation_war_declared,
-            'WarDeclared': self.corporation_war_declared,
             'EntosisCaptureStarted': self.entosis_capture_started,
             'SovCommandNodeEventStarted': self.sov_structure_command_nodes_decloaked,
             'SovStructureDestroyed': self.sov_structure_destroyed,
@@ -109,6 +109,20 @@ class Printer(object):
             return rendered_notification
 
         return 'Unknown notification type for printing [' + notification['type'] + ']'
+
+    # againstID: 99008816
+    # cost: 100000000
+    # declaredByID: 99006941
+    # delayHours: 24
+    # hostileState: false
+    # timeStarted: 132646817400000000
+    # warHQ: <b>Osoggur - This is war HQgrad</b>
+    # warHQ_IdType:
+    # - 1031415482668
+    # - 35832
+    @staticmethod
+    def war_declared():
+        return 'War has been declared against {0:get_corporation_or_alliance(againstID)} by {0:get_corporation_or_alliance(declaredByID)} with War HQ {0:get_string(warHQ)}'
 
     @staticmethod
     def corporation_war_declared():
