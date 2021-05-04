@@ -3,6 +3,7 @@ import math
 import schedule
 import time
 import os
+import logging
 
 from reconbot.tasks import esi_notification_task
 from reconbot.notifiers.caching import CachingNotifier
@@ -15,6 +16,9 @@ from reconbot.sso import SSO
 from dotenv import load_dotenv
 
 load_dotenv()
+
+logging.basicConfig(format='[%(asctime)s][%(name)s][%(levelname)s] %(message)s', filename='reconbot.log',
+                    level=logging.DEBUG)
 
 notification_caching_timer = 5
 webhook_url = os.getenv("WEBHOOK_URL")
@@ -145,7 +149,8 @@ def api_to_sso(api):
         sso_app['client_id'],
         sso_app['secret_key'],
         api['refresh_token'],
-        api['character_id']
+        api['character_id'],
+        api['character_name']
     )
 
 
@@ -156,7 +161,6 @@ def notifications_job_logistics():
     esi_notification_task(
         eve_apis['logistics-team']['notifications'],
         api_queue_logistics,
-        'discord',
         my_discord_channels
     )
 

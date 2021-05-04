@@ -5,7 +5,7 @@ import time
 
 class SSO:
 
-    def __init__(self, client_id, secret_key, refresh_token, character_id):
+    def __init__(self, client_id, secret_key, refresh_token, character_id, character_name):
         self.client_id = client_id
         self.secret_key = secret_key
         self.refresh_token = refresh_token
@@ -13,6 +13,7 @@ class SSO:
         self.access_token = None
         self.access_token_expiry = None
         self.character_id = character_id
+        self.character_name = character_name
 
     def get_access_token(self):
         if self.token_expired():
