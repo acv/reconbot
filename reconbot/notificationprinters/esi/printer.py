@@ -124,7 +124,7 @@ class Printer(object):
     # - 35832
     @staticmethod
     def war_declared():
-        return 'War has been declared against {0:get_corporation_or_alliance(againstID)} by {0:get_corporation_or_alliance(declaredByID)} with War HQ {0:get_string(warHQ)}'
+        return 'War has been declared against {0:get_corporation_or_alliance(againstID)} by {0:get_corporation_or_alliance(declaredByID)} with War HQ {0:get_string_preserve_bold(warHQ)}'
 
     @staticmethod
     def corporation_war_declared():
@@ -449,6 +449,10 @@ class Printer(object):
     @staticmethod
     def get_string(value):
         return str(value)
+
+    @staticmethod
+    def get_string_preserve_bold(value):
+        return str(value).replace('<b>', '**').replace('</b>', '**')
 
     def get_corporation_from_link(self, show_info):
         return self.get_corporation(show_info[-1])
