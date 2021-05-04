@@ -28,6 +28,8 @@ class Printer(object):
                 ping = ':scream: @everyone '
         elif notification['type'] == 'StructureFuelAlert' or notification['type'] == 'StructureServicesOffline':
             ping = ':fuelpump: @everyone '
+        elif notification['type'] == 'WarDeclared':
+            ping = ':scream: @everyone '
 
         return '%s `[%s]` %s' % (ping, timestamp, text)
 
