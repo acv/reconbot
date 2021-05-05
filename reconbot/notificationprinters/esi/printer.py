@@ -16,21 +16,19 @@ class Printer(object):
         text = self.get_notification_text(notification)
         timestamp = self.timestamp_to_date(notification['timestamp'])
         ping = ':gasp:'
-        
-        content = yaml.load(notification['text'], Loader=yaml.FullLoader)
 
-        if notification['type'] == 'StructureUnderAttack':
-            if content['charID'] == 1000134:
-                ping = ':scream: :blooders: '
-                notification['type'] = 'StructureUnderAttackBlooder'
-                text = self.get_notification_text(notification)
-            else:
-                ping = ':scream: @everyone '
-        elif notification['type'] == 'StructureFuelAlert' or notification['type'] == 'StructureServicesOffline':
-            ping = ':fuelpump: @everyone '
-        elif notification['type'] == 'WarDeclared':
+        notification_type = notification['type']
+        if notification_type == 'StructureUnderAttack':
             ping = ':scream: @everyone '
-        elif notification['type'] == 'MoonminingExtractionFinished':
+        elif notification_type == "StructureUnderAttackByBloodRaiders":
+            ping = ':scream: :blooders: '
+        elif notification_type == "StructureUnderAttackByGuristas":
+            ping = ':scream: :guristas: '
+        elif notification_type == 'StructureFuelAlert' or notification_type == 'StructureServicesOffline':
+            ping = ':fuelpump: @everyone '
+        elif notification_type == 'WarDeclared':
+            ping = ':scream: @everyone '
+        elif notification_type == 'MoonminingExtractionFinished':
             ping = ':gasp: @Mining '
 
         return '%s `[%s]` %s' % (ping, timestamp, text)
@@ -49,7 +47,8 @@ class Printer(object):
             'SovStructureDestroyed': self.sov_structure_destroyed,
             'SovStructureReinforced': self.sov_structure_reinforced,
             'StructureUnderAttack': self.citadel_attacked,
-            'StructureUnderAttackBlooder': self.citadel_attacked_by_blooders,
+            'StructureUnderAttackByBloodRaiders': self.citadel_attacked_by_blooders,
+            'StructureUnderAttackByGuristas': self.citadel_attacked_by_guristas,
             'OwnershipTransferred': self.structure_transferred,
             'StructureOnline': self.citadel_onlined,
             'StructureDestroyed': self.citadel_destroyed,
@@ -238,7 +237,11 @@ class Printer(object):
 
     @staticmethod
     def citadel_attacked_by_blooders(self):
-        return 'Citadel (__**{0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}"**__) attacked in {0:get_system(solarsystemID)} by blooders.'
+        return 'Citadel (__**{0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}"**__) attacked in {0:get_system(solarsystemID)} by Blood Raiders.'
+
+    @staticmethod
+    def citadel_attacked_by_guristas(self):
+        return 'Citadel (__**{0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}"**__) attacked in {0:get_system(solarsystemID)} by Guristas.'
 
     @staticmethod
     def citadel_onlined(self):

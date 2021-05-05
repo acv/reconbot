@@ -35,6 +35,10 @@ def esi_notification_task(notification_options, api_queue, notifier):
 
         logger.info("After whitelist, {count} notifications remain.".format(count=len(notifications)))
 
+        if 'filters' in notification_options and type(notification_options['filters']) is list:
+            for notification_filter in notification_options['filters']:
+                notifications = [notification_filter.filter(notification) for notification in notifications]
+
         printer = ESIDiscord(esi)
 
         messages = []

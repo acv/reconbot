@@ -7,6 +7,7 @@ import logging
 
 from logging.handlers import TimedRotatingFileHandler
 
+from reconbot.filters.differentiate_fob_attacks import DifferentiateFobAttacks
 from reconbot.tasks import esi_notification_task
 from reconbot.notifiers.caching import CachingNotifier
 from reconbot.notifiers.discordwebhook import DiscordWebhookNotifier
@@ -101,6 +102,9 @@ eve_apis = {
                 'WarInvalid',
                 'WarRetractedByConcord',
             ],
+            'filters': [
+                DifferentiateFobAttacks(),
+            ]
         },
         'characters': {
             character_one_name: {
