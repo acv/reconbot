@@ -1,6 +1,6 @@
 import yaml
 
-from filter import Filter
+from reconbot.filters.filter import Filter
 
 
 class DifferentiateFobAttacks(Filter):
