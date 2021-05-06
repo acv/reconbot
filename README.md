@@ -1,4 +1,4 @@
-Reconbot for Eve Online [![CircleCI](https://circleci.com/gh/flakas/reconbot.svg?style=svg)](https://circleci.com/gh/flakas/reconbot)
+Reconbot for Eve Online
 =======================
 
 Reconbot is a notification relay bot for an MMO game [Eve Online](http://secure.eveonline.com/signup/?invc=905e73a0-eb57-49ab-8fe5-9759c2ba5e99&action=buddy).
