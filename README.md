@@ -1,4 +1,4 @@
-Reconbot for Eve Online [![CircleCI](https://circleci.com/gh/flakas/reconbot.svg?style=svg)](https://circleci.com/gh/flakas/reconbot)
+Reconbot for Eve Online
 =======================
 
 Reconbot is a notification relay bot for an MMO game [Eve Online](http://secure.eveonline.com/signup/?invc=905e73a0-eb57-49ab-8fe5-9759c2ba5e99&action=buddy).
@@ -37,15 +37,6 @@ You should now have a URL like this:
 ```
 https://discordapp.com/api/webhooks/496014874437332490/5783au24jzyEFIaWnfTvJn0gFzh5REEEE3ee3e3eNKeFee3We2cIe_6e7e36ugUj5zEm
 ```
-Use it with `DiscordWebhookNotifier` as seen in `run.py` example.
-
-__If you wish to use a Discord bot user:__ (not recommended)
-
-To add a Discord integration, check out [this Discord documentation page on Bot accounts](https://discordapp.com/developers/docs/topics/oauth2#bots).
-You will need to [create an application](https://discordapp.com/developers/applications/me#top) and add it to your discord server.
-See [this guide](https://github.com/Chikachi/DiscordIntegration/wiki/How-to-get-a-token-and-channel-ID-for-Discord) for more visual step-by-step instructions.
-You will need a `Token` for your Bot User, and `Channel ID` where to post messages in.
-Use it with `DiscordNotifier` as seen in `run.py` example.
 
 ## 3. Reconbot setup
 
@@ -59,7 +50,7 @@ Use it with `DiscordNotifier` as seen in `run.py` example.
 
 # Other notes
 
-Reconbot by default will try to evenly spread out checking API keys over the cache expiry window (which is 10 minutes for ESI), meaning that with 2 API keys in rotation an API key will be checked every ~5 minutes (with 10 keys - every minute), which can be useful to detect alliance or corporation-wide notifications more frequently than only once every 10 minutes.
+Reconbot by default will try to evenly spread out checking API keys over the cache _half_ the expiry window (which is 10 minutes for ESI), meaning that with 2 API keys in rotation an API key will be checked every ~3 minutes (with 5 keys, every minute), which can be useful to detect alliance or corporation-wide notifications more frequently than only once every 10 minutes. It will not check more than 1 API key per minute right now.
 
 ## Supported notifications
 
