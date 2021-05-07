@@ -1,9 +1,0 @@
-version: "3.8"
-services:
-  reconbot:
-    container_name: ${CONTAINER_NAME}
-    hostname: "reconbot"
-    build: '.'
-    env_file:
-    - .env
-    restart: 'always'

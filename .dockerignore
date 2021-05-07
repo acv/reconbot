@@ -1,6 +1,0 @@
-venv
-datadump/*
-coverage.xml
-unit.xml
-.coverage
-.env.example
