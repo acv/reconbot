@@ -1,5 +1,7 @@
 import abc
 import datetime
+import math
+
 import yaml
 import requests
 
@@ -7,8 +9,6 @@ from reconbot.notificationprinters.formatter import Formatter
 
 
 class Printer(object):
-    __metaclass__ = abc.ABCMeta
-
     def __init__(self, eve, ping_formatter):
         self.eve = eve
         self.ping_formatter = ping_formatter
@@ -277,7 +277,7 @@ class Printer(object):
 
     @staticmethod
     def moon_extraction_finished():
-        return 'Moon extraction has finished and is ready in {0:get_system(solarSystemID)} ({0:get_moon(moonID)}, "{0:get_string(structureName)}") to be exploded into a belt (or will auto-explode into one on {0:eve_timestamp_to_date(autoTime)})'
+        return 'Moon extraction has finished and is ready in {0:get_system(solarSystemID)} ({0:get_moon(moonID)}, "{0:get_string(structureName)}") to be exploded into a belt (or will auto-explode into one on {0:eve_timestamp_to_date(autoTime)}) moon composition {0:get_moon_composition(oreVolumeByType)}'
 
     @staticmethod
     def moon_extraction_turned_into_belt():
@@ -347,14 +347,6 @@ class Printer(object):
     def alliance_capital_changed():
         return 'Alliance capital system of {0:get_alliance(allianceID)} has changed to {0:get_system(solarSystemID)}'
 
-    @abc.abstractmethod
-    def get_corporation(self, corporation_id):
-        return
-
-    @abc.abstractmethod
-    def get_alliance(self, alliance_id):
-        return
-
     def get_corporation_or_alliance(self, entity_id):
         try:
             return self.get_corporation(entity_id)
@@ -365,10 +357,6 @@ class Printer(object):
         item = self.eve.get_item(item_id)
         return item['name']
 
-    @abc.abstractmethod
-    def get_system(self, system_id):
-        return
-
     def get_planet(self, planet_id):
         planet = self.eve.get_planet(planet_id)
         system = self.get_system(planet['system_id'])
@@ -377,14 +365,6 @@ class Printer(object):
     def get_moon(self, moon_id):
         moon = self.eve.get_moon(moon_id)
         return moon['name']
-
-    @abc.abstractmethod
-    def get_character(self, character_id):
-        return
-
-    @abc.abstractmethod
-    def get_killmail(self, kill_id, killmail_hash):
-        return
 
     @staticmethod
     def get_campaign_event_type(event_type):
@@ -468,3 +448,65 @@ class Printer(object):
         services = map(lambda item_id: self.get_item(item_id), modules)
 
         return ', '.join(services)
+
+    def get_corporation(self, corporation_id):
+        corporation = self.eve.get_corporation(corporation_id)
+        result = '[%s](<https://zkillboard.com/corporation/%d/>)' % (corporation['name'], corporation_id)
+
+        if 'alliance_id' in corporation:
+            result = '[%s] [%s]' % (result, self.get_alliance(corporation['alliance_id']))
+
+        return result
+
+    def get_alliance(self, alliance_id):
+        alliance = self.eve.get_alliance(alliance_id)
+        return '[%s](<https://zkillboard.com/alliance/%d/>)' % (alliance['name'], alliance_id)
+
+    def get_system(self, system_id):
+        system = self.eve.get_system(system_id)
+        return '**[%s](<http://evemaps.dotlan.net/system/%s>)**' % (system['name'], system['name'])
+
+    def get_character(self, character_id):
+        if not character_id:
+            return 'Unknown character'
+
+        try:
+            character = self.eve.get_character(character_id)
+        except requests.HTTPError as ex:
+            # Patch for character being unresolvable and ESI throwing internal errors
+            # Temporarily stub character to not break our behavior.
+            if ex.response.status_code == 500 or ex.response.status_code == 404:
+                character = {'name': 'Unknown character', 'corporation_id': 98356193}
+            else:
+                raise
+
+        return '**[%s](<https://zkillboard.com/character/%d/>)** %s' % (
+            character['name'],
+            character_id,
+            self.get_corporation(character['corporation_id'])
+        )
+
+    def get_killmail(self, killmail_id, killmail_hash):
+        killmail = self.eve.get_killmail(killmail_id, killmail_hash)
+        victim = self.get_character(killmail['victim']['character_id'])
+        ship = self.get_item(killmail['victim']['ship_type_id'])
+        system = self.get_system(killmail['solar_system_id'])
+
+        return '%s lost a(n) %s in %s (<https://zkillboard.com/kill/%d/>)' % (
+            victim,
+            ship,
+            system,
+            killmail_id
+        )
+
+    # oreVolumeByType:
+    # 45490: 1176484.4156596793
+    # 45496: 1101576.78784565
+    # 45502: 1734458.036109956
+    # 45504: 1657730.84487711
+    def get_moon_composition(self, ore_data):
+        ore_strings = []
+        for ore_type, ore_qty in ore_data:
+            ore_strings.append(self.get_item(ore_type) + ': ' + str(math.floor(ore_qty)) + " m3")
+        return '(' + ', '.join(ore_strings) + ')'
+

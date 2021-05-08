@@ -3,7 +3,7 @@ import traceback
 import datetime
 import logging
 
-from reconbot.notificationprinters.discord import Discord as ESIDiscord
+from reconbot.notificationprinters.printer import Printer
 from reconbot.esi import ESI
 
 MAX_NOTIFICATION_AGE_IN_SECONDS = 7200
@@ -39,7 +39,7 @@ def esi_notification_task(notification_options, api_queue, notifier, ping_format
             for notification_filter in notification_options['filters']:
                 notifications = [notification_filter.filter(notification) for notification in notifications]
 
-        printer = ESIDiscord(esi, ping_formatter)
+        printer = Printer(esi, ping_formatter)
 
         messages = []
         for notification in notifications:
