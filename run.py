@@ -62,8 +62,7 @@ p.add_argument("-c", "--config", metavar="CONFIG", default="reconbot.ini",
 args = p.parse_args()
 
 
-config = Config(config_file_name=args['config'])
-
+config = Config(config_file_name=args.config)
 
 
 discord = {
