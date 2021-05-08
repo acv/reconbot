@@ -3,33 +3,21 @@ import datetime
 import yaml
 import requests
 
-from reconbot.notificationprinters.esi.formatter import Formatter
+from reconbot.notificationprinters.formatter import Formatter
 
 
 class Printer(object):
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, eve):
+    def __init__(self, eve, ping_formatter):
         self.eve = eve
+        self.ping_formatter = ping_formatter
 
     def transform(self, notification):
         text = self.get_notification_text(notification)
         timestamp = self.timestamp_to_date(notification['timestamp'])
-        ping = ':gasp:'
 
-        notification_type = notification['type']
-        if notification_type == 'StructureUnderAttack':
-            ping = ':scream: @everyone '
-        elif notification_type == "StructureUnderAttackByBloodRaiders":
-            ping = ':scream: :blooders: '
-        elif notification_type == "StructureUnderAttackByGuristas":
-            ping = ':scream: :guristas: '
-        elif notification_type == 'StructureFuelAlert' or notification_type == 'StructureServicesOffline':
-            ping = ':fuelpump: @everyone '
-        elif notification_type == 'WarDeclared':
-            ping = ':scream: @everyone '
-        elif notification_type == 'MoonminingExtractionFinished':
-            ping = ':gasp: @Mining '
+        ping = self.ping_formatter(notification)
 
         return '%s `[%s]` %s' % (ping, timestamp, text)
 

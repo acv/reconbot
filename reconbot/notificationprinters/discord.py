@@ -1,5 +1,5 @@
 import requests
-from reconbot.notificationprinters.esi.printer import Printer
+from reconbot.notificationprinters.printer import Printer
 
 
 class Discord(Printer):
