@@ -7,9 +7,9 @@ class ConfigurationException(Exception):
 
 class Config(object):
     def __init__(self, config_file_name):
-        self.parse_config(config_file_name)
         self.notifications_whitelist = []
         self.discord_config = {'ping': {}}
+        self.parse_config(config_file_name)
 
     # noinspection PyTypeChecker
     def parse_config(self, config_file_name):
