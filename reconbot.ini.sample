@@ -1,0 +1,47 @@
+[NotificationsMonitored]
+AllyJoinedWarAggressorMsg
+CorpWarSurrenderMsg
+OwnershipTransferred
+MoonminingExtractionFinished
+SovAllClaimAquiredMsg
+SovAllClaimLostMsg
+SovStationEnteredFreeport
+SovStructureDestroyed
+SovStructureReinforced
+SovStructureSelfDestructFinished
+SovStructureSelfDestructRequested
+StationConquerMsg
+StationServiceDisabled
+StationServiceEnabled
+StructureAnchoring
+StructureFuelAlert
+StructureLostArmor
+StructureLostShields
+StructureOnline
+StructureServicesOffline
+StructureUnanchoring
+StructureUnderAttack
+StructureWentHighPower
+StructureWentLowPower
+TowerAlertMsg
+WarAdopted
+WarDeclared
+WarInherited
+WarInvalid
+WarRetractedByConcord
+WarSurrenderOfferMsg
+
+
+[DiscordDefaults]
+default_ping = :gasp:
+
+
+[DiscordNotificationSpecificPing]
+StructureUnderAttack = :scream: @everyone
+StructureUnderAttackByBloodRaiders = :scream: :blooders:  # FOB ping suppression requires this.
+StructureUnderAttackByGuristas = :scream: :guristas:  # FOB ping suppression requires this.
+StructureFuelAlert = :fuelpump: @everone
+StructureServicesOffline = :fuelpump: @everone
+WarDeclared = :scream: @everyone
+MoonminingExtractionFinished = :gasp: @Mining
+

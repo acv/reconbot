@@ -30,11 +30,13 @@ class ESI:
 
     def get_new_notifications(self, max_age=None):
         notifications = self.get_notifications()
+        for notification in notifications:
+            notification['type'] = notification['type'].strip()  # There's one with a stray space...
         return sorted(
             filter(
-                lambda notification: self.is_recent_notification(notification['timestamp'], max_age) is True,
+                lambda n: self.is_recent_notification(n['timestamp'], max_age) is True,
                 notifications),
-            key=lambda notification: notification['timestamp'])
+            key=lambda n: n['timestamp'])
 
     @staticmethod
     def is_recent_notification(timestamp, max_age=None):

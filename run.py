@@ -4,9 +4,11 @@ import schedule
 import time
 import os
 import logging
+import argparse
 
 from logging.handlers import TimedRotatingFileHandler
 
+from reconbot.config import Config
 from reconbot.filters.differentiate_fob_attacks import DifferentiateFobAttacks
 from reconbot.notificationprinters.pingformatter import PingFormatter
 from reconbot.tasks import esi_notification_task
@@ -53,6 +55,17 @@ character_six_name = os.getenv("CHARACTER_SIX_NAME")
 character_six_id = int(os.getenv("CHARACTER_SIX_ID"))
 character_six_token = os.getenv("CHARACTER_SIX_TOKEN")
 
+
+p = argparse.ArgumentParser()
+p.add_argument("-c", "--config", metavar="CONFIG", default="reconbot.ini",
+               help="Path to config file (default: ./reconbot.ini)")
+args = p.parse_args()
+
+
+config = Config(config_file_name=args['config'])
+
+
+
 discord = {
     'webhook': {
         'url': webhook_url
@@ -70,53 +83,12 @@ sso_app = {
 eve_apis = {
     'logistics-team': {
         'notifications': {
-            'whitelist': [
-                'AllyJoinedWarAggressorMsg',
-                'CorpWarSurrenderMsg',
-                'OwnershipTransferred',
-                'MoonminingExtractionFinished',
-                'SovAllClaimAquiredMsg',
-                'SovAllClaimLostMsg',
-                'SovStationEnteredFreeport',
-                'SovStructureDestroyed',
-                'SovStructureReinforced',
-                'SovStructureSelfDestructFinished',
-                'SovStructureSelfDestructRequested',
-                'StationConquerMsg',
-                'StationServiceDisabled',
-                'StationServiceEnabled',
-                'StructureAnchoring',
-                'StructureFuelAlert',
-                'StructureLostArmor',
-                'StructureLostShields',
-                'StructureOnline',
-                'StructureOnline',
-                'StructureServicesOffline',
-                'StructureUnanchoring',
-                'StructureUnderAttack',
-                'StructureWentHighPower',
-                'StructureWentLowPower',
-                'TowerAlertMsg',
-                'WarAdopted ',
-                'WarDeclared',
-                'WarInherited',
-                'WarInvalid',
-                'WarRetractedByConcord',
-                'WarSurrenderOfferMsg',
-            ],
+            'whitelist': config.notifications_whitelist,
             'filters': [
                 DifferentiateFobAttacks(),
             ],
-            'ping': {
-                'StructureUnderAttack': ':scream: @everyone ',
-                'StructureUnderAttackByBloodRaiders': ':scream: :blooders: ',  # FOB ping suppression requires this.
-                'StructureUnderAttackByGuristas': ':scream: :guristas: ',  # FOB ping suppression requires this.
-                'StructureFuelAlert': ':fuelpump: @everone ',
-                'StructureServicesOffline': ':fuelpump: @everone ',
-                'WarDeclared': ':scream: @everyone ',
-                'MoonminingExtractionFinished': ':gasp: @Mining ',
-            },
-            'default_ping': ':gasp: '
+            'ping': config.discord_config['ping'],
+            'default_ping': config.discord_config['default_ping']
         },
         'characters': {
             character_one_name: {
