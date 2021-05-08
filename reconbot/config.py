@@ -13,7 +13,7 @@ class Config(object):
 
     # noinspection PyTypeChecker
     def parse_config(self, config_file_name):
-        c = configparser.ConfigParser()
+        c = configparser.ConfigParser(allow_no_value=True)
         c.read(config_file_name)
 
         if 'NotificationsMonitored' not in c:
