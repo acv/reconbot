@@ -14,6 +14,7 @@ class Config(object):
     # noinspection PyTypeChecker
     def parse_config(self, config_file_name):
         c = configparser.ConfigParser(allow_no_value=True)
+        c.optionxform = lambda option: option
         c.read(config_file_name)
 
         if 'NotificationsMonitored' not in c:
