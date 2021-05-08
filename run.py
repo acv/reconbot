@@ -102,6 +102,7 @@ eve_apis = {
                 'WarInherited',
                 'WarInvalid',
                 'WarRetractedByConcord',
+                'WarSurrenderOfferMsg',
             ],
             'filters': [
                 DifferentiateFobAttacks(),
