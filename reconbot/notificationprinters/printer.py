@@ -1,4 +1,3 @@
-import abc
 import datetime
 import math
 
@@ -17,7 +16,7 @@ class Printer(object):
         text = self.get_notification_text(notification)
         timestamp = self.timestamp_to_date(notification['timestamp'])
 
-        ping = self.ping_formatter(notification)
+        ping = self.ping_formatter.get_ping_string(notification)
 
         return '%s `[%s]` %s' % (ping, timestamp, text)
 
@@ -506,7 +505,8 @@ class Printer(object):
     # 45504: 1657730.84487711
     def get_moon_composition(self, ore_data):
         ore_strings = []
-        for ore_type, ore_qty in ore_data:
+        for ore_type in ore_data:
+            ore_qty = ore_data[ore_type]
             ore_strings.append(self.get_item(ore_type) + ': ' + str(math.floor(ore_qty)) + " m3")
         return '(' + ', '.join(ore_strings) + ')'
 
