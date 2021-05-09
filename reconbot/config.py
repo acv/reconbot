@@ -48,7 +48,7 @@ class Config(object):
             self.parse_notification_format_section(n_format, c[n_format])
 
     def parse_notification_format_section(self, n_format_section_name, n_format_section):
-        notification_type = n_format_section.split(' ')[1]  # Per self.parse_config() should never IndexError.
+        notification_type = n_format_section_name.split(' ')[1]  # Per self.parse_config() should never IndexError.
         if len(notification_type) < 1:
             raise ConfigurationException(f"NotificationFormat section [{n_format_section_name}] is invalid.")
         if 'content' not in n_format_section:
