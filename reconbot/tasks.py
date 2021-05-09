@@ -3,6 +3,7 @@ import traceback
 import datetime
 import logging
 
+from reconbot.notificationprinters.pingformatter import PingFormatter
 from reconbot.notificationprinters.printer import Printer
 from reconbot.esi import ESI
 
@@ -12,7 +13,7 @@ MAX_NOTIFICATION_AGE_IN_SECONDS = 7200
 logger = logging.getLogger(__name__)
 
 
-def esi_notification_task(notification_options, api_queue, notifier, ping_formatter):
+def esi_notification_task(notification_options, api_queue, notifier):
     try:
         sso = api_queue.get()
 
@@ -39,7 +40,10 @@ def esi_notification_task(notification_options, api_queue, notifier, ping_format
             for notification_filter in notification_options['filters']:
                 notifications = [notification_filter.filter(notification) for notification in notifications]
 
-        printer = Printer(esi, ping_formatter)
+        ping_formatter = PingFormatter(ping_mapping=notification_options['ping'],
+                                       default_ping=notification_options['default_ping'])
+
+        printer = Printer(esi, notification_options['notification_formats'], ping_formatter)
 
         messages = []
         for notification in notifications:

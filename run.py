@@ -10,7 +10,6 @@ from logging.handlers import TimedRotatingFileHandler
 
 from reconbot.config import Config
 from reconbot.filters.differentiate_fob_attacks import DifferentiateFobAttacks
-from reconbot.notificationprinters.pingformatter import PingFormatter
 from reconbot.tasks import esi_notification_task
 from reconbot.notifiers.caching import CachingNotifier
 from reconbot.notifiers.discordwebhook import DiscordWebhookNotifier
@@ -86,6 +85,7 @@ eve_apis = {
             'filters': [
                 DifferentiateFobAttacks(),
             ],
+            'notification_formats': config.notification_formats,
             'ping': config.discord_config['ping'],
             'default_ping': config.discord_config['default_ping']
         },
@@ -124,7 +124,7 @@ eve_apis = {
     }
 }
 
-my_discord_channels = CachingNotifier(
+notifiers = CachingNotifier(
     SplitterNotifier([
         RoutingNotifier(
             notifiers={
@@ -151,16 +151,11 @@ def api_to_sso(api):
 api_queue_logistics = ApiQueue(list(map(api_to_sso, eve_apis['logistics-team']['characters'].values())))
 
 
-ping_formatter = PingFormatter(ping_mapping=eve_apis['logistics-team']['notifications']['ping'],
-                               default_ping=eve_apis['logistics-team']['notifications']['default_ping'])
-
-
 def notifications_job_logistics():
     esi_notification_task(
         eve_apis['logistics-team']['notifications'],
         api_queue_logistics,
-        my_discord_channels,
-        ping_formatter
+        notifiers
     )
 
 

@@ -45,3 +45,240 @@ StructureServicesOffline = :fuelpump: @everone
 WarDeclared = :scream: @everyone
 MoonminingExtractionFinished = :gasp: @Mining
 
+
+
+[NotificationFormat AllWarDeclaredMsg]
+content = War has been declared to {0:get_corporation_or_alliance(againstID)} by {0:get_corporation_or_alliance(declaredByID)}
+
+
+[NotificationFormat DeclareWar]
+content = {0:get_character(charID)} from {0:get_corporation_or_alliance(entityID)} has declared war to {0:get_corporation_or_alliance(defenderID)}
+
+
+[NotificationFormat WarDeclared]
+content = War has been declared against {0:get_corporation_or_alliance(againstID)} by {0:get_corporation_or_alliance(declaredByID)} with War HQ {0:get_string_preserve_bold(warHQ)}
+
+
+[NotificationFormat AllWarInvalidatedMsg]
+content = War against {0:get_corporation_or_alliance(againstID)} has been invalidated by {0:get_corporation_or_alliance(declaredByID)}
+
+
+[NotificationFormat AllyJoinedWarAggressorMsg]
+content = Ally {0:get_corporation_or_alliance(allyID)} joined the war to help {0:get_corporation_or_alliance(defenderID)} starting {0:eve_timestamp_to_date(startTime)}
+
+
+[NotificationFormat CorpWarDeclaredMsg]
+content = War has been declared to {0:get_corporation_or_alliance(againstID)} by {0:get_corporation_or_alliance(declaredByID)}
+
+
+[NotificationFormat EntosisCaptureStarted]
+content = Capturing of "{0:get_item(structureTypeID)}" in {0:get_system(solarSystemID)} has started
+
+
+
+[NotificationFormat SovCommandNodeEventStarted]
+content = Command nodes for "{0:get_campaign_event_type(campaignEventType)}" SOV structure in {0:get_system(solarSystemID)} have decloaked
+
+
+[NotificationFormat SovStructureDestroyed]
+content = SOV structure "{0:get_item(structureTypeID)}" in {0:get_system(solarSystemID)} has been destroyed
+
+
+[NotificationFormat SovStructureReinforced]
+content = SOV structure "{0:get_item(structureTypeID)}" in {0:get_system(solarSystemID)} has been freeported, exits freeport on "{0:eve_timestamp_to_date(freeportexittime)}"
+
+
+[NotificationFormat StructureUnderAttack]
+content = Citadel (__**{0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}"**__) attacked ({0:get_percentage(shieldPercentage)} shield, {0:get_percentage(armorPercentage)} armor, {0:get_percentage(hullPercentage)} hull) in {0:get_system(solarsystemID)} by {0:get_character(charID)}
+
+
+[NotificationFormat StructureUnderAttackByBloodRaiders]
+content = Citadel (__**{0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}"**__) attacked in {0:get_system(solarsystemID)} by Blood Raiders.
+
+
+[NotificationFormat StructureUnderAttackByGuristas]
+content = Citadel (__**{0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}"**__) attacked in {0:get_system(solarsystemID)} by Guristas.
+
+
+[NotificationFormat OwnershipTransferred]
+content = {0:get_item(structureTypeID)} {0:get_string(structureName)} structure in {0:get_system(solarSystemID)} has been transferred from {0:get_corporation(oldOwnerCorpID)} to {0:get_corporation(newOwnerCorpID)} by {0:get_character(charID)}
+
+
+[NotificationFormat StructureOnline]
+content = Citadel ({0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}") onlined in {0:get_system(solarsystemID)}
+
+
+[NotificationFormat StructureDestroyed]
+content = Citadel ({0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}") destroyed in {0:get_system(solarsystemID)} owned by {0:get_corporation_from_link(ownerCorpLinkData)}
+
+
+[NotificationFormat StructureFuelAlert]
+content = Citadel (__**{0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}"**__) ran out of fuel in {0:get_system(solarsystemID)} with services "{0:get_citadel_services(listOfServiceModuleIDs)}"
+
+
+[NotificationFormat StructureWentLowPower]
+content = Citadel ({0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}") went into low power mode in {0:get_system(solarsystemID)}
+
+
+[NotificationFormat StructureWentHighPower]
+content = Citadel ({0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}") went into high power mode in {0:get_system(solarsystemID)}
+
+
+[NotificationFormat StructureAnchoring]
+content = Citadel ({0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}") anchored in {0:get_system(solarsystemID)} by {0:get_corporation_from_link(ownerCorpLinkData)}
+
+
+[NotificationFormat StructureUnanchoring]
+content = Citadel ({0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}") unanchoring in {0:get_system(solarsystemID)} by {0:get_corporation_from_link(ownerCorpLinkData)}
+
+
+[NotificationFormat StructureServicesOffline]
+content = Citadel (__**{0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}"**__) ran out of fuel in {0:get_system(solarsystemID)} with services "{0:get_citadel_services(listOfServiceModuleIDs)}"
+
+
+[NotificationFormat StructureLostShields]
+content = Citadel ({0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}") lost shields in {0:get_system(solarsystemID)} (comes out of reinforce on "{0:eve_duration_to_date(notification_timestamp, timeLeft)}")
+
+
+[NotificationFormat StructureLostArmor]
+content = Citadel ({0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}") lost armor in {0:get_system(solarsystemID)} (comes out of reinforce on "{0:eve_duration_to_date(notification_timestamp, timeLeft)}")
+
+
+[NotificationFormat TowerAlertMsg]
+content = {0:get_moon(moonID)} POS "{0:get_item(typeID)}" ({0:get_percentage(shieldValue)} shield, {0:get_percentage(armorValue)} armor, {0:get_percentage(hullValue)} hull) under attack by {0:get_character(aggressorID)}'
+
+
+[NotificationFormat TowerResourceAlertMsg]
+content = {0:get_moon(moonID)} POS "{0:get_item(typeID)}" is low on fuel: {0:get_pos_wants(wants)}
+
+
+[NotificationFormat StationServiceEnabled]
+content = Structure "{0:get_item(structureTypeID)}" in {0:get_system(solarSystemID)} has been enabled
+
+
+[NotificationFormat StationServiceDisabled]
+content = Structure "{0:get_item(structureTypeID)}" in {0:get_system(solarSystemID)} has been disabled
+
+
+[NotificationFormat OrbitalReinforced]
+content = "{0:get_planet(planetID)}" POCO has been reinforced by {0:get_character(aggressorID)} (comes out of reinforce on "{0:eve_timestamp_to_date(reinforceExitTime)}")
+
+
+[NotificationFormat OrbitalAttacked]
+content = "{0:get_planet(planetID)}" POCO ({0:get_percentage(shieldLevel)} shields) has been attacked by {0:get_character(aggressorID)}
+
+
+[NotificationFormat SovAllClaimAquiredMsg]
+content = SOV acquired in {0:get_system(solarSystemID)} by {0:get_corporation(corpID)}
+
+
+[NotificationFormat SovStationEnteredFreeport]
+content = SOV structure "{0:get_item(structureTypeID)}" in {0:get_system(solarSystemID)} has been freeported, exits freeport on "{0:eve_timestamp_to_date(freeportexittime)}"
+
+
+[NotificationFormat AllAnchoringMsg]
+content = New structure ({0:get_item(typeID)}) anchored in "{0:get_moon(moonID)}" by {0:get_corporation(corpID)}
+
+
+[NotificationFormat InfrastructureHubBillAboutToExpire]
+content = IHUB bill to {0:get_corporation(corpID)} for system {0:get_system(solarSystemID)} will expire {0:eve_timestamp_to_date(dueDate)}
+
+
+[NotificationFormat SovAllClaimLostMsg]
+content = SOV lost in {0:get_system(solarSystemID)} by {0:get_corporation(corpID)}
+
+
+[NotificationFormat SovStructureSelfDestructRequested]
+content = Self-destruction of "{0:get_item(structureTypeID)}" SOV structure in {0:get_system(solarSystemID)} has been requested by {0:get_character(charID)}. Structure will self-destruct on "{0:eve_timestamp_to_date(destructTime)}"
+
+
+[NotificationFormat SovStructureSelfDestructFinished]
+content = SOV structure "{0:get_item(structureTypeID)}" has self destructed in {0:get_system(solarSystemID)}
+
+
+[NotificationFormat StationConquerMsg]
+content = Station conquered from {0:get_corporation(oldOwnerID)} by {0:get_corporation(newOwnerID)} in {0:get_system(solarSystemID)}
+
+
+[NotificationFormat MoonminingExtractionStarted]
+content = Moon extraction started by {0:get_character(startedBy)} in {0:get_system(solarSystemID)} ({0:get_moon(moonID)}, "{0:get_string(structureName)}") and will be ready on {0:eve_timestamp_to_date(readyTime)} (or will auto-explode into a belt on {0:eve_timestamp_to_date(autoTime)})
+
+
+[NotificationFormat MoonminingExtractionCancelled]
+content = Moon extraction cancelled by {0:get_character(cancelledBy)} in {0:get_system(solarSystemID)} ({0:get_moon(moonID)}, "{0:get_string(structureName)}")
+
+
+[NotificationFormat MoonminingExtractionFinished]
+content = Moon extraction has finished and is ready in {0:get_system(solarSystemID)} ({0:get_moon(moonID)}, "{0:get_string(structureName)}") to be exploded into a belt (or will auto-explode into one on {0:eve_timestamp_to_date(autoTime)}) moon composition {0:get_moon_composition(oreVolumeByType)}
+
+
+[NotificationFormat MoonminingLaserFired]
+content = Moon laser has been fired by {0:get_character(firedBy)} in {0:get_system(solarSystemID)} ({0:get_moon(moonID)}, "{0:get_string(structureName)}") and the belt is ready to be mined
+
+
+[NotificationFormat MoonminingAutomaticFracture]
+content = Moon extraction in {0:get_system(solarSystemID)} ({0:get_moon(moonID)}, "{0:get_string(structureName)}") has autofractured into a belt and is ready to be mined
+
+
+[NotificationFormat CorpAllBillMsg]
+content = Corporation bill issued to {0:get_corporation_or_alliance(debtorID)} by {0:get_corporation_or_alliance(creditorID)} for the amount of {0:get_isk(amount)} at {0:eve_timestamp_to_date(currentDate)}. Bill is due {0:eve_timestamp_to_date(dueDate)}
+
+
+[NotificationFormat BillPaidCorpAllMsg]
+content = Corporation bill for {0:get_isk(amount)} was paid. Bill was due {0:eve_timestamp_to_date(dueDate)}
+
+
+[NotificationFormat CharAppAcceptMsg]
+content = Character {0:get_character(charID)} accepted to corporation {0:get_corporation(corpID)}
+
+
+[NotificationFormat CorpAppNewMsg]
+content = Character {0:get_character(charID)} has applied to corporation {0:get_corporation(corpID)}. Application text:\n\n{0:get_string(applicationText)}
+
+
+[NotificationFormat CharAppWithdrawMsg]
+content = Character {0:get_character(charID)} application to corporation {0:get_corporation(corpID)} has been withdrawn
+
+
+[NotificationFormat CharLeftCorpMsg]
+content = Character {0:get_character(charID)} left corporation {0:get_corporation(corpID)}
+
+
+[NotificationFormat CorpNewCEOMsg]
+content = {0:get_character(newCeoID)} has replaced {0:get_character(oldCeoID)} as the new CEO of {0:get_corporation(corpID)}
+
+
+[NotificationFormat CorpVoteMsg]
+content = New corporation vote for "{0:get_string(subject)}":\n\n{0:get_string(body)}
+
+
+[NotificationFormat CorpVoteCEORevokedMsg]
+content = Corporation "{0:get_corporation(corpID)}" vote for new CEO has been revoked by {0:get_character(charID)}
+
+
+[NotificationFormat CorpTaxChangeMsg]
+content = Tax changed from {0:get_percentage(oldTaxRate)} to {0:get_percentage(newTaxRate)} for {0:get_corporation(corpID)}
+
+
+[NotificationFormat CorpDividendMsg]
+content = Corporation {0:get_corporation(corpID)} has paid out {0:get_isk(payout)} ISK in dividends
+
+
+[NotificationFormat BountyClaimMsg]
+content = A bounty of {0:get_isk(amount)} has been claimed for killing {0:get_character(charID)}
+
+
+[NotificationFormat KillReportVictim]
+content = Died in a(n) {0:get_item(victimShipTypeID)}: {0:get_killmail(killMailID, killMailHash)}
+
+
+[NotificationFormat KillReportFinalBlow]
+content = Got final blow on {0:get_item(victimShipTypeID)}: {0:get_killmail(killMailID, killMailHash)}
+
+
+[NotificationFormat AllianceCapitalChanged]
+content = Alliance capital system of {0:get_alliance(allianceID)} has changed to {0:get_system(solarSystemID)}
+
+
+[NotificationFormat WarRetractedByConcord]
+content = War against {0:get_corporation_or_alliance(againstID)} has been invalidated by CONCORD
