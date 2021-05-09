@@ -1,3 +1,4 @@
+from typing import Dict  # Python 3.8 requires
 import datetime
 import math
 
@@ -11,7 +12,7 @@ from reconbot.notificationprinters.pingformatter import PingFormatter
 
 
 class Printer(object):
-    def __init__(self, eve: ESI, notification_formats: dict[str, NotificationFormat], ping_formatter: PingFormatter):
+    def __init__(self, eve: ESI, notification_formats: Dict[str, NotificationFormat], ping_formatter: PingFormatter):
         self.eve = eve
         self.ping_formatter = ping_formatter
         self.notification_formats = notification_formats
