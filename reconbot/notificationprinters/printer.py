@@ -6,6 +6,7 @@ import yaml
 import requests
 
 from reconbot.esi import ESI
+from reconbot.notificationprinters.discord.discordmessage import DiscordMessage
 from reconbot.notificationprinters.formatter import Formatter
 from reconbot.notificationprinters.notificationformat import NotificationFormat
 from reconbot.notificationprinters.pingformatter import PingFormatter
@@ -17,27 +18,29 @@ class Printer(object):
         self.ping_formatter = ping_formatter
         self.notification_formats = notification_formats
 
-    def transform(self, notification):
+    def transform(self, notification) -> DiscordMessage:
         payload = self.get_notification_payload(notification)
-        timestamp = self.timestamp_to_date(notification['timestamp'])
 
-        ping = self.ping_formatter.get_ping_string(notification)
-
-        return '%s `[%s]` %s' % (ping, timestamp, payload)
+        return payload
 
     def get_notification_payload(self, notification):
+        payload = DiscordMessage()
         if notification['type'] in self.notification_formats:
-            print("-------------")
-            print(notification['text'])
-            print("---")
-            text = yaml.load(notification['text'], Loader=yaml.FullLoader)
-            text['notification_timestamp'] = notification['timestamp']
-            template = self.notification_formats[notification['type']].content
+            yaml_text = yaml.load(notification['text'], Loader=yaml.FullLoader)
+            yaml_text['notification_timestamp'] = notification['timestamp']
+            payload.set_content(self.get_notification_content(notification, yaml_text))
+        else:
+            payload.set_content('Unknown notification type for printing [' + notification['type'] + ']')
+        return payload
 
-            rendered_notification = template.format(Formatter(self, text)) 
-            return rendered_notification
-
-        return 'Unknown notification type for printing [' + notification['type'] + ']'
+    def get_notification_content(self, notification, yaml_text):
+        content_template = self.notification_formats[notification['type']].content
+        ping_part = "%s `[%s]` " % (self.ping_formatter.get_ping_string(notification), notification['timestamp'])
+        if content_template is None:
+            content_template = ''
+        content_template = ping_part + content_template
+        notification_content = content_template.format(Formatter(self, yaml_text))
+        return notification_content
 
     def get_corporation_or_alliance(self, entity_id):
         try:
