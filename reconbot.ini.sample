@@ -38,13 +38,152 @@ default_ping = :gasp:
 
 [DiscordNotificationSpecificPing]
 StructureUnderAttack = :scream: @everyone
-StructureUnderAttackByBloodRaiders = :scream: :blooders:  # FOB ping suppression requires this.
-StructureUnderAttackByGuristas = :scream: :guristas:  # FOB ping suppression requires this.
-StructureFuelAlert = :fuelpump: @everone
-StructureServicesOffline = :fuelpump: @everone
+StructureUnderAttackByBloodRaiders = :scream: :blooders:
+StructureUnderAttackByGuristas = :scream: :guristas:
+StructureFuelAlert = :fuelpump: @everyone
+StructureServicesOffline = :fuelpump: @everyone
 WarDeclared = :scream: @everyone
 MoonminingExtractionFinished = :gasp: @Mining
 
+
+#
+# Below are the [NotificationFormat] sections that define how the ESI Notifications
+# are formatted for display. The section name contains two parts separated by a space,
+# the first part is "NotificationFormat" and the second part if the "type" property
+# of the Notification.
+#
+# Following that, a number of Keys can define the exact way the notification is
+# displayed.
+#
+#     content = Capturing of "{0:get_item(structureTypeID)}" in {0:get_system(solarSystemID)} has started
+#
+# The content key is the most basic and most configurable part of the notification and
+# the oldest supported by ReconBot. It is a format string used with the srt.format()
+# python method. There's a special interpolation on templates that allow for method
+# calls on YAML properties of the notification content. The format follows:
+#
+#    {0:method_name(YamlProperty)}
+#
+# Where:
+#   method_name     is one of the method documented below with 1 or more arguments
+#                   between the parentheses.
+#   YamlProperty    is the name of one of the property in the Yaml content.
+#
+# The methods that are defined are:
+#
+#   get_corporation_or_alliance(entity_id)
+#      Get an corporation if the entity_id is the ID of a corp or an alliance
+#      if it is not and then formats them as either get_corporation(entity_id)
+#      or get_alliance(entity_id)
+#
+#   get_item(item_id)
+#      Returns the name of the item.
+#
+#   get_planet(planet_id)
+#      Returns a string composed of the planet name and the system name like
+#      "Myyhera IV in Myyhera". Might seem redundant but a handful of planet
+#      such as Caldari Prime in Luminaire or Orid in Amarr are named.
+#
+#   get_moon(moon_id)
+#      Returns the name of a moon.
+#
+#   get_campaign_event_type(event_type)
+#      Used by some Sov-related notification to differentiate between an IHUB
+#      and a TCU and replace the numeric ID with a human readable name.
+#
+#   get_structure_name(structure_id)
+#      Prints the name of a structure, retrieved from the ESI via the
+#      structure_id.
+#
+#   timestamp_to_date(timestamp)
+#      Turns a timestamp (iso format) into a nicer format.
+#
+#   eve_timestamp_to_date(microseconds)
+#      Turns a timestamp (microseconds since epoch) into a nicer format.
+#
+#   eve_duration_to_date(timestamp, microseconds)
+#      Converts an iso timestamp and a microseconds offset into a single
+#      easy to read timestamp.
+#
+#   get_percentage(value)
+#      Displays a number as a percentage. If the value is <= 1, it's also
+#      multiplied by 100.
+#
+#   get_isk(isk)
+#      Formats an ISK amount to a number with 2 decimals.
+#
+#   get_string(value)
+#      Forces the value into a python string (via str()) effectively. Good
+#      way to display a string from the yaml as-is.
+#
+#   get_string_preserve_bold(value)
+#      Same as above but converts <b> and </b> into ** to preserve the bold
+#      in discord.
+#
+#   get_corporation_from_link(show_info)
+#      Gets a corporation from a Yaml "Show Info" link like below:
+#
+# corpLinkData:
+# - showinfo
+# - 2
+# - 1000134
+#
+#   get_structure_type_from_link(show_info)
+#      Gets a structure's type from a Yaml "Show Info" link like below:
+#
+# structureShowInfoData:
+# - showinfo
+# - 35835
+# - *id001
+#
+#   get_system_from_link(show_info)
+#      Gets a system from a Yaml "Show Info" link (no sample available).
+#
+#   get_character_from_link(show_info)
+#      Gets a character from a Yaml "Show Info" link (no sample available).
+#
+#   get_pos_wants(wants)
+#      Formats the "wants" from a POS out of fuel / low on fuel message.
+#
+#   get_citadel_services(modules)
+#      Formats the list of services from a citadel, used in out of fuel
+#      messages.
+#
+#   get_corporation(corporation_id)
+#      Retrieves a corp name from ESI from an ID and then formats display
+#      with an hyperlink to zKillboard. Includes the same for the alliance
+#      if the corp as one.
+#
+#   get_alliance(alliance_id)
+#      Retrieves an alliance name from ESI from an ID and then formats display
+#      with an hyperlink to zKillboard.
+#
+#   get_system(system_id)
+#      Retrieves a system name from ESI from an ID and then formats display
+#      with an hyperlink to Dotlan.
+#
+#   get_character(character_id)
+#      Retrieves a char name from ESI from an ID if it can be found and then
+#      formats it as an hyperlink to zKillboard. In case of failure, it will
+#      default to an "Unknown Character."
+#
+#   get_killmail(killmail_id, killmail_hash)
+#      Retrieves a full killmail from ESI and then formats for display,
+#      including an hyperlink to the zKillboard. No check is made to see if
+#      zKillboard has the ID in its database so the link could go to a 404
+#      for a valid kill that either hasn't yet been pulled by zKill or
+#      involves entities that do not have APIs stored in zKill.
+#
+#   get_moon_composition(ore_data)
+#      Formats a string representation of the ore content included in moon
+#      mining related Notifications YAML, such as this sample:
+#
+# oreVolumeByType:
+#   45490: 1176484.4156596793
+#   45496: 1101576.78784565
+#   45502: 1734458.036109956
+#   45504: 1657730.84487711
+#
 
 
 [NotificationFormat AllWarDeclaredMsg]
@@ -73,7 +212,6 @@ content = War has been declared to {0:get_corporation_or_alliance(againstID)} by
 
 [NotificationFormat EntosisCaptureStarted]
 content = Capturing of "{0:get_item(structureTypeID)}" in {0:get_system(solarSystemID)} has started
-
 
 
 [NotificationFormat SovCommandNodeEventStarted]
