@@ -16,23 +16,23 @@ class CachingNotifier:
     def notify(self, notification, discord_message, options=None):
         if options is None:
             options = {}
-        if not self._is_cached(notification['text']):
-            self._cache(notification['text'])
+        if not self._is_cached(notification):
+            self._cache(notification)
             self.notifier.notify(notification, discord_message, options)
 
         self._cleanup()
 
-    def _cache(self, notification_content):
-        self.cache[notification_content] = time.time() + self.duration
-        if notification_content['type'] in ('StructureUnderAttackByBloodRaiders', 'StructureUnderAttackByGuristas'):
-            self.fob_cache[notification_content] = time.time() + self.duration
+    def _cache(self, notification):
+        self.cache[notification['text']] = time.time() + self.duration
+        if notification['type'] in ('StructureUnderAttackByBloodRaiders', 'StructureUnderAttackByGuristas'):
+            self.fob_cache[notification['text']] = time.time() + self.duration
 
-    def _is_cached(self, notification_content):
-        is_in_normal_cache = notification_content in self.cache and self.cache[notification_content] > time.time()
+    def _is_cached(self, notification):
+        is_in_normal_cache = notification['text'] in self.cache and self.cache[notification['text']] > time.time()
         is_in_fob_cache = False
-        if notification_content['type'] in ('StructureUnderAttackByBloodRaiders', 'StructureUnderAttackByGuristas'):
-            is_in_fob_cache = notification_content in self.fob_cache and \
-                              self.fob_cache[notification_content] > time.time()
+        if notification['type'] in ('StructureUnderAttackByBloodRaiders', 'StructureUnderAttackByGuristas'):
+            is_in_fob_cache = notification['text'] in self.fob_cache and \
+                              self.fob_cache[notification['text']] > time.time()
         return is_in_normal_cache or is_in_fob_cache
 
     def _cleanup(self):
