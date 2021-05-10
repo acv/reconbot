@@ -11,35 +11,33 @@ class CachingNotifier:
         self.cache = {}
         self.fob_cache = {}
         self.fob_duration = duration * 4
-        self.fob_ts_re = re.compile(r'[:](blooders|guristas)[:][ ]{2}`[^`]*`')
 
     # noinspection PyUnusedLocal
-    def notify(self, notification, text, options=None):
+    def notify(self, notification, discord_message, options=None):
         if options is None:
             options = {}
-        if not self._is_cached(text):
-            self._cache(text)
-            self.notifier.notify(notification, text, options)
+        if not self._is_cached(notification['text']):
+            self._cache(notification['text'])
+            self.notifier.notify(notification, discord_message, options)
 
         self._cleanup()
 
-    def _cache(self, message):
-        self.cache[message] = time.time() + self.duration
-        if ':blooders:' in message:
-            message = self.fob_ts_re.sub('', message)
-            self.fob_cache[message] = time.time() + self.fob_duration
+    def _cache(self, notification_content):
+        self.cache[notification_content] = time.time() + self.duration
+        if notification_content['type'] in ('StructureUnderAttackByBloodRaiders', 'StructureUnderAttackByGuristas'):
+            self.fob_cache[notification_content] = time.time() + self.duration
 
-    def _is_cached(self, message):
-        is_in_normal_cache = message in self.cache and self.cache[message] > time.time()
+    def _is_cached(self, notification_content):
+        is_in_normal_cache = notification_content in self.cache and self.cache[notification_content] > time.time()
         is_in_fob_cache = False
-        if ':blooders:' in message or ':guristas:' in message:
-            message = self.fob_ts_re.sub('', message)
-            is_in_fob_cache = message in self.fob_cache and self.fob_cache[message] > time.time()
+        if notification_content['type'] in ('StructureUnderAttackByBloodRaiders', 'StructureUnderAttackByGuristas'):
+            is_in_fob_cache = notification_content in self.fob_cache and \
+                              self.fob_cache[notification_content] > time.time()
         return is_in_normal_cache or is_in_fob_cache
 
     def _cleanup(self):
         current_time = time.time()
 
-        self.cache = {message: timeout for message, timeout in self.cache.items() if timeout >= current_time}
-        self.fob_cache = {message: timeout for message, timeout in self.fob_cache.items()
+        self.cache = {content: timeout for content, timeout in self.cache.items() if timeout >= current_time}
+        self.fob_cache = {content: timeout for content, timeout in self.fob_cache.items()
                           if timeout >= current_time}
