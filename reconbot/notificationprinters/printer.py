@@ -7,6 +7,7 @@ import requests
 
 from reconbot.esi import ESI
 from reconbot.notificationprinters.discord.discordmessage import DiscordMessage
+from reconbot.notificationprinters.embedprinter import EmbedPrinter
 from reconbot.notificationprinters.formatter import Formatter
 from reconbot.notificationprinters.notificationformat import NotificationFormat
 from reconbot.notificationprinters.pingformatter import PingFormatter
@@ -29,6 +30,9 @@ class Printer(object):
             yaml_text = yaml.load(notification['text'], Loader=yaml.FullLoader)
             yaml_text['notification_timestamp'] = notification['timestamp']
             payload.set_content(self.get_notification_content(notification, yaml_text))
+            for embed in self.notification_formats[notification['type']].embeds:
+                embed_printer = EmbedPrinter(self)
+                payload.add_embed(embed_printer.format(embed, yaml_text))
         else:
             payload.set_content('Unknown notification type for printing [' + notification['type'] + ']')
         return payload

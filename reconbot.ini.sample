@@ -347,7 +347,16 @@ content = Moon extraction cancelled by {0:get_character(cancelledBy)} in {0:get_
 
 
 [NotificationFormat MoonminingExtractionFinished]
-content = Moon extraction has finished and is ready in {0:get_system(solarSystemID)} ({0:get_moon(moonID)}, "{0:get_string(structureName)}") to be exploded into a belt (or will auto-explode into one on {0:eve_timestamp_to_date(autoTime)}) moon composition {0:get_moon_composition(oreVolumeByType)}
+#content = Moon extraction has finished and is ready in {0:get_system(solarSystemID)} ({0:get_moon(moonID)}, "{0:get_string(structureName)}") to be exploded into a belt (or will auto-explode into one on {0:eve_timestamp_to_date(autoTime)}) moon composition {0:get_moon_composition(oreVolumeByType)}
+embed.0.formatter = FormatString
+embed.0.title = Moon Mining Extraction Finished
+embed.0.argument = "{0:get_string(structureName)}" is ready to be exploded into a belt (or will auto-explode into one on {0:eve_timestamp_to_date(autoTime)})
+embed.1.formatter = FormatString
+embed.1.title = Location
+embed.1.argument = {0:get_system(solarSystemID)} ({0:get_moon(moonID)})
+embed.2.formatter = MineralComposition
+embed.2.title = Composition
+embed.2.argument = oreVolumeByType
 
 
 [NotificationFormat MoonminingLaserFired]
