@@ -3,11 +3,10 @@ import math
 from reconbot.notificationprinters.discord.discordembed import DiscordEmbed, DiscordEmbedField
 from reconbot.notificationprinters.embedformat import EmbedFormat
 from reconbot.notificationprinters.formatter import Formatter
-from reconbot.notificationprinters.printer import Printer
 
 
 class EmbedPrinter(object):
-    def __init__(self, printer: Printer):
+    def __init__(self, printer):
         self.printer = printer
 
     def format(self, embed: EmbedFormat, content) -> DiscordEmbed:
