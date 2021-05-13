@@ -60,6 +60,7 @@ def esi_notification_task(notification_options, api_queue, notifier):
 
 
 def notify_exception(location, exception):
+    logger.exception(f"Exception in {location} ({exception.__class__.__name__})", exception)
     print('[%s] Exception in %s' % (datetime.datetime.now(), location))
     print('-' * 60)
     traceback.print_exc(file=sys.stdout)
