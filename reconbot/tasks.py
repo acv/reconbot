@@ -50,7 +50,7 @@ def esi_notification_task(notification_options, api_queue, notifier):
             formatted = printer.transform(notification)
             messages.append((notification, formatted))
             logger.debug("Notification type {type} formatted as {formatted}".format(type=notification['type'],
-                                                                                    formatted=formatted))
+                                                                                    formatted=str(formatted)))
 
         for notification, message in messages:
             notifier.notify(notification, message)
