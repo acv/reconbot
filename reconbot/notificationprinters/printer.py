@@ -39,7 +39,8 @@ class Printer(object):
 
     def get_notification_content(self, notification, yaml_text):
         content_template = self.notification_formats[notification['type']].content
-        ping_part = "%s `[%s]` " % (self.ping_formatter.get_ping_string(notification), notification['timestamp'])
+        ping_part = "%s `[%s]` " % (self.ping_formatter.get_ping_string(notification),
+                                    self.timestamp_to_date(notification['timestamp']))
         if content_template is None:
             content_template = ''
         content_template = ping_part + content_template
