@@ -7,7 +7,7 @@ class DiscordEmbedField(object):
         self.value = value
 
     def as_data_struct(self):
-        return {'name': self.name, 'value': self.value}
+        return {'name': self.name, 'value': self.value, 'inline': True}
 
     def as_text(self) -> str:
         return f"{self.name}: {self.value}"
