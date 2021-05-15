@@ -128,7 +128,9 @@ notifiers = CachingNotifier(
     SplitterNotifier([
         RoutingNotifier(
             notifiers={
+                'MoonminingAutomaticFracture': DiscordWebhookNotifier(discord['mining_webhook']['url']),
                 'MoonminingExtractionFinished': DiscordWebhookNotifier(discord['mining_webhook']['url']),
+                'MoonminingLaserFired': DiscordWebhookNotifier(discord['mining_webhook']['url'])
             },
             default_notifier=DiscordWebhookNotifier(discord['webhook']['url'])
         ),
