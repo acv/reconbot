@@ -251,8 +251,7 @@ content = Citadel ({0:get_structure_type_from_link(structureShowInfoData)}, "{0:
 
 
 [NotificationFormat StructureFuelAlert]
-content = Citadel (__**{0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}"**__) ran out of fuel in {0:get_system(solarsystemID)} with services "{0:get_citadel_services(listOfServiceModuleIDs)}"
-
+content = Citadel (__**{0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}"**__) running out of fuel in {0:get_system(solarsystemID)}! {0:get_remaining_fuels(listOfTypesAndQty)}
 
 [NotificationFormat StructureWentLowPower]
 content = Citadel ({0:get_structure_type_from_link(structureShowInfoData)}, "{0:get_structure_name(structureID)}") went into low power mode in {0:get_system(solarsystemID)}

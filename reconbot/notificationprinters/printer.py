@@ -210,3 +210,19 @@ class Printer(object):
             ore_qty = ore_data[ore_type]
             ore_strings.append(self.get_item(ore_type) + ': ' + str(math.floor(ore_qty)) + " m3")
         return '(' + ', '.join(ore_strings) + ')'
+
+    def get_remaining_fuels(self, list_of_types_and_qty):
+        fuels = []
+        for fuel in list_of_types_and_qty:
+            if len(fuel) != 2:
+                continue
+            fuel_str = ""
+            fuel_str += self.get_item(fuel[1])
+            fuel_str += ': '
+            fuel_str += str(fuel[0])
+            fuels.append(fuel_str)
+        if len(fuels) > 0:
+            return "(" + "; ".join(fuels) + ")"
+        else:
+            return ""
+
