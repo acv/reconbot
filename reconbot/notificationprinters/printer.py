@@ -225,4 +225,3 @@ class Printer(object):
             return "(" + "; ".join(fuels) + ")"
         else:
             return ""
-

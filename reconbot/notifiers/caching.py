@@ -1,4 +1,5 @@
 import time
+import yaml
 import re
 
 
@@ -22,16 +23,20 @@ class CachingNotifier:
 
         self._cleanup()
 
+    def _get_fob_string(self, notification):
+        yaml_text = yaml.load(notification['text'], Loader=yaml.FullLoader)
+        return str(yaml_text['structureID'])
+
     def _cache(self, notification):
         self.cache[notification['text']] = time.time() + self.duration
         if notification['type'] in ('StructureUnderAttackByBloodRaiders', 'StructureUnderAttackByGuristas'):
-            self.fob_cache[notification['text']] = time.time() + self.duration
+            self.fob_cache[self._get_fob_string(notification)] = time.time() + self.duration
 
     def _is_cached(self, notification):
         is_in_normal_cache = notification['text'] in self.cache and self.cache[notification['text']] > time.time()
         is_in_fob_cache = False
         if notification['type'] in ('StructureUnderAttackByBloodRaiders', 'StructureUnderAttackByGuristas'):
-            is_in_fob_cache = notification['text'] in self.fob_cache and \
+            is_in_fob_cache = self._get_fob_string(notification) in self.fob_cache and \
                               self.fob_cache[notification['text']] > time.time()
         return is_in_normal_cache or is_in_fob_cache
 
