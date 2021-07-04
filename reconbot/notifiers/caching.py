@@ -37,7 +37,7 @@ class CachingNotifier:
         is_in_fob_cache = False
         if notification['type'] in ('StructureUnderAttackByBloodRaiders', 'StructureUnderAttackByGuristas'):
             is_in_fob_cache = self._get_fob_string(notification) in self.fob_cache and \
-                              self.fob_cache[notification['text']] > time.time()
+                              self.fob_cache[self._get_fob_string(notification)] > time.time()
         return is_in_normal_cache or is_in_fob_cache
 
     def _cleanup(self):
