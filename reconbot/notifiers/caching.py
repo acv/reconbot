@@ -23,7 +23,8 @@ class CachingNotifier:
 
         self._cleanup()
 
-    def _get_fob_string(self, notification):
+    @staticmethod
+    def _get_fob_string(notification):
         yaml_text = yaml.load(notification['text'], Loader=yaml.FullLoader)
         return str(yaml_text['structureID'])
 
