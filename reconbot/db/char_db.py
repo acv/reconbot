@@ -15,6 +15,7 @@ class Char(object):
         c.execute("""INSERT OR REPLACE INTO chars (char_id, username, refresh_token, orig_refresh_token)
                      VALUES (?, ?, ?, ?)""", (self.char_id, self.username, self.refresh_token,
                                               self.orig_refresh_token))
+        self.char_db.dbh.commit()
         c.close()
 
 
