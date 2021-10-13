@@ -29,6 +29,7 @@ log_handler.setFormatter(logging.Formatter('[%(asctime)s][%(name)s][%(levelname)
 logger = logging.getLogger()
 logger.addHandler(log_handler)
 logger.setLevel(logging.DEBUG)
+logger.info("Application Started")
 
 
 notification_caching_timer = 5
