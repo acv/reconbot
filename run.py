@@ -2,7 +2,6 @@ import math
 
 import schedule
 import time
-import os
 import logging
 import argparse
 
@@ -19,9 +18,7 @@ from reconbot.notifiers.routing import RoutingNotifier
 from reconbot.apiqueue import ApiQueue
 from reconbot.sso import SSO
 from reconbot.db.char_db import CharDB
-from dotenv import load_dotenv
 
-load_dotenv()
 
 log_handler = TimedRotatingFileHandler('reconbot.log', when="d", interval=7, backupCount=4)
 log_handler.setFormatter(logging.Formatter('[%(asctime)s][%(name)s][%(levelname)s] %(message)s'))
@@ -33,29 +30,6 @@ logger.info("Application Started")
 
 
 notification_caching_timer = 5
-webhook_url = os.getenv("WEBHOOK_URL")
-mining_webhook_url = os.getenv("MINING_WEBHOOK_URL")
-sso_app_client_id = os.getenv("SSO_APP_CLIENT_ID")
-sso_app_secret_key = os.getenv("SSO_APP_SECRET_KEY")
-character_one_name = os.getenv("CHARACTER_ONE_NAME")
-character_one_id = int(os.getenv("CHARACTER_ONE_ID"))
-character_one_token = os.getenv("CHARACTER_ONE_TOKEN")
-character_two_name = os.getenv("CHARACTER_TWO_NAME")
-character_two_id = int(os.getenv("CHARACTER_TWO_ID"))
-character_two_token = os.getenv("CHARACTER_TWO_TOKEN")
-character_three_name = os.getenv("CHARACTER_THREE_NAME")
-character_three_id = int(os.getenv("CHARACTER_THREE_ID"))
-character_three_token = os.getenv("CHARACTER_THREE_TOKEN")
-character_four_name = os.getenv("CHARACTER_FOUR_NAME")
-character_four_id = int(os.getenv("CHARACTER_FOUR_ID"))
-character_four_token = os.getenv("CHARACTER_FOUR_TOKEN")
-character_five_name = os.getenv("CHARACTER_FIVE_NAME")
-character_five_id = int(os.getenv("CHARACTER_FIVE_ID"))
-character_five_token = os.getenv("CHARACTER_FIVE_TOKEN")
-character_six_name = os.getenv("CHARACTER_SIX_NAME")
-character_six_id = int(os.getenv("CHARACTER_SIX_ID"))
-character_six_token = os.getenv("CHARACTER_SIX_TOKEN")
-
 
 p = argparse.ArgumentParser()
 p.add_argument("-c", "--config", metavar="CONFIG", default="reconbot.ini",
