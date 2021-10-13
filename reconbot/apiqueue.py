@@ -4,7 +4,7 @@ from queue import Queue
 class ApiQueue:
     """A pool of EVE API keys to be iterated over in a sequential indefinite cycle"""
 
-    def __init__(self, config, apis=None):
+    def __init__(self, apis=None):
         if apis is None:
             apis = []
         self.queue = Queue()
