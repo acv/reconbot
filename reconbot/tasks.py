@@ -21,7 +21,7 @@ def esi_notification_task(notification_options, api_queue, notifier):
         esi = ESI(sso)
 
         logger.info(f"Retrieving notifications newer than {MAX_NOTIFICATION_AGE_IN_SECONDS} " +
-                    f"seconds from {sso.character.username}.")
+                    f"seconds from {sso.character['username']}.")
         notifications = esi.get_new_notifications(max_age=MAX_NOTIFICATION_AGE_IN_SECONDS)
         logger.info("Got {count} notifications.".format(count=len(notifications)))
 

@@ -25,7 +25,7 @@ class ESI:
         return self.esi_get(url)
 
     def get_notifications(self):
-        url = '/latest/characters/%d/notifications/' % self.sso.character.char_id
+        url = '/latest/characters/%d/notifications/' % self.sso.character['char_id']
         return self.esi_get(url)
 
     def get_new_notifications(self, max_age=None):
