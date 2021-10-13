@@ -51,7 +51,7 @@ eve_apis = {
             'ping': config.discord_config['ping'],
             'default_ping': config.discord_config['default_ping']
         },
-        'characters': CharDB(config),
+        'characters': CharDB(config).chars,
     }
 }
 
