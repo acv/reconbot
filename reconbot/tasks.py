@@ -50,7 +50,7 @@ def esi_notification_task(notification_options, api_queue, notifier):
             formatted = printer.transform(notification)
             messages.append((notification, formatted))
             logger.debug("Notification type {type} formatted as {formatted}".format(type=notification['type'],
-                                                                                    formatted=str(formatted)))
+                                                                                    formatted=str(formatted.as_text())))
 
         for notification, message in messages:
             notifier.notify(notification, message)
@@ -60,7 +60,7 @@ def esi_notification_task(notification_options, api_queue, notifier):
 
 
 def notify_exception(location, exception):
-    logger.exception(f"Exception in {location} ({exception.__class__.__name__})", exception)
+    logger.error(f"Exception in {location} ({exception.__class__.__name__})", exception)
     print('[%s] Exception in %s' % (datetime.datetime.now(), location))
     print('-' * 60)
     traceback.print_exc(file=sys.stdout)

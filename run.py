@@ -18,6 +18,7 @@ from reconbot.notifiers.stdout import StdOutNotifier
 from reconbot.notifiers.routing import RoutingNotifier
 from reconbot.apiqueue import ApiQueue
 from reconbot.sso import SSO
+from reconbot.db.char_db import CharDB
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -64,20 +65,6 @@ args = p.parse_args()
 config = Config(config_file_name=args.config)
 
 
-discord = {
-    'webhook': {
-        'url': webhook_url
-    },
-    'mining_webhook': {
-        'url': mining_webhook_url
-    }
-}
-
-sso_app = {
-    'client_id': sso_app_client_id,
-    'secret_key': sso_app_secret_key
-}
-
 eve_apis = {
     'logistics-team': {
         'notifications': {
@@ -89,50 +76,21 @@ eve_apis = {
             'ping': config.discord_config['ping'],
             'default_ping': config.discord_config['default_ping']
         },
-        'characters': {
-            character_one_name: {
-                'character_name': character_one_name,
-                'character_id': character_one_id,
-                'refresh_token': character_one_token
-            },
-            character_two_name: {
-                'character_name': character_two_name,
-                'character_id': character_two_id,
-                'refresh_token': character_two_token
-            },
-            character_three_name: {
-                'character_name': character_three_name,
-                'character_id': character_three_id,
-                'refresh_token': character_three_token
-            },
-            character_four_name: {
-                'character_name': character_four_name,
-                'character_id': character_four_id,
-                'refresh_token': character_four_token
-            },
-            character_five_name: {
-                'character_name': character_five_name,
-                'character_id': character_five_id,
-                'refresh_token': character_five_token
-            },
-            character_six_name: {
-                'character_name': character_six_name,
-                'character_id': character_six_id,
-                'refresh_token': character_six_token
-            },
-        },
+        'characters': CharDB(config),
     }
 }
+
+
+custom_notifiers = {}
+for notification in config.notification_webhook.keys():
+    custom_notifiers[notification] = DiscordWebhookNotifier(config.webhooks[config.notification_webhook[notification]])
+
 
 notifiers = CachingNotifier(
     SplitterNotifier([
         RoutingNotifier(
-            notifiers={
-                'MoonminingAutomaticFracture': DiscordWebhookNotifier(discord['mining_webhook']['url']),
-                'MoonminingExtractionFinished': DiscordWebhookNotifier(discord['mining_webhook']['url']),
-                'MoonminingLaserFired': DiscordWebhookNotifier(discord['mining_webhook']['url'])
-            },
-            default_notifier=DiscordWebhookNotifier(discord['webhook']['url'])
+            notifiers=custom_notifiers,
+            default_notifier=DiscordWebhookNotifier(config.webhooks[config.discord_config['default_webhook']])
         ),
         StdOutNotifier(),
     ]),
@@ -140,17 +98,9 @@ notifiers = CachingNotifier(
 )
 
 
-def api_to_sso(api):
-    return SSO(
-        sso_app['client_id'],
-        sso_app['secret_key'],
-        api['refresh_token'],
-        api['character_id'],
-        api['character_name']
-    )
-
-
-api_queue_logistics = ApiQueue(list(map(api_to_sso, eve_apis['logistics-team']['characters'].values())))
+api_queue_logistics = ApiQueue(config, [SSO(config.esi_config['ApplicationClientID'],
+                                            config.esi_config['ApplicationSecretKey'],
+                                            c) for c in config.esi_config['characters']])
 
 
 def notifications_job_logistics():
@@ -167,7 +117,7 @@ def run_and_schedule(characters, notifications_job):
     schedule.every(math.ceil(notification_caching_timer/len(characters))).minutes.do(notifications_job)
 
 
-run_and_schedule(eve_apis['logistics-team']['characters'], notifications_job_logistics)
+run_and_schedule(config.esi_config['characters'], notifications_job_logistics)
 
 
 while True:

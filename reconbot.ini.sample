@@ -1,3 +1,29 @@
+[EveApplicationInfo]
+ApplicationClientID = ""
+ApplicationSecretKey = ""
+
+
+[DiscordWebHooks]
+webhook =
+mining_webhook =
+
+
+[NotificationsSpecificWebHooks]
+MoonminingAutomaticFracture = mining_webhook
+MoonminingExtractionFinished = mining_webhook
+MoonminingLaserFired = mining_webhook
+
+
+[EveCharacters]
+char.0.username =
+char.0.char_id =
+char.0.refresh_token =
+
+char.1.username =
+char.1.char_id =
+char.1.refresh_token =
+
+
 [NotificationsMonitored]
 AllyJoinedWarAggressorMsg
 CorpWarSurrenderMsg
@@ -33,6 +59,7 @@ WarSurrenderOfferMsg
 
 
 [DiscordDefaults]
+default_webhook = webhook
 default_ping = :gasp:
 
 
