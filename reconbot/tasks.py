@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 def esi_notification_task(notification_options, api_queue, notifier):
+    logger.info("Entering notification task.")
     try:
         sso = api_queue.get()
 
