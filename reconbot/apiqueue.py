@@ -14,7 +14,7 @@ class ApiQueue:
 
         if len(apis) > 0:
             for api in apis:
-                self.queue.put((config, apis))
+                self.queue.put(api)
 
     def add(self, api):
         self.queue.put(api)
