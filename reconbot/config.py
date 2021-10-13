@@ -74,8 +74,8 @@ class Config(object):
 
         for key in c.options('EveCharacters'):
             s = key.split('.')
-            if not key[0] == 'char' or not len(s) == 3 or s[2] not in ('username', 'char_id', 'refresh_token'):
-                raise ConfigurationException("Unexpected character option name")
+            if not s[0] == 'char' or not len(s) == 3 or s[2] not in ('username', 'char_id', 'refresh_token'):
+                raise ConfigurationException("Unexpected character option name [{0}]".format(key))
             index = int(s[1])
             if index not in char_bits:
                 char_bits[index] = {}
