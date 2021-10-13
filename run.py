@@ -98,9 +98,9 @@ notifiers = CachingNotifier(
 )
 
 
-api_queue_logistics = ApiQueue(config, [SSO(config.esi_config['ApplicationClientID'],
-                                            config.esi_config['ApplicationSecretKey'],
-                                            c) for c in config.esi_config['characters']])
+api_queue_logistics = ApiQueue([SSO(config.esi_config['ApplicationClientID'],
+                                    config.esi_config['ApplicationSecretKey'],
+                                    c) for c in config.esi_config['characters']])
 
 
 def notifications_job_logistics():
