@@ -1,8 +1,8 @@
 Reconbot for Eve Online
 =======================
 
-Reconbot is a notification relay bot for an MMO game [Eve Online](http://secure.eveonline.com/signup/?invc=905e73a0-eb57-49ab-8fe5-9759c2ba5e99&action=buddy).
-It fetches character notifications from the EVE API, filters irrelevant ones out and sends relevant ones to set Slack or Discord channels.
+Reconbot is a notification relay bot for an MMO game [Eve Online](https://www.eveonline.com/signup?invc=6b509cb9-dbab-48a1-b30b-d81796f9a4df).
+It fetches character notifications from the EVE API, filters irrelevant ones out and sends relevant ones to set Discord channels.
 Notifications like SOV changes, SOV/POS/POCO/Citadel attacks.
 
 # Setup
@@ -22,15 +22,9 @@ Reconbot does not provide a way to authenticate an account to an application, so
 
 When registering the application take note of the `Client ID` and `Secret Key`, as they are necessary for Reconbot to establish communication with ESI API.
 
-## 2. Slack or Discord chat tools
+## 2. Discord chat tool
 
-### Slack
-
-To add a Slack integration, check out [this Slack documentation page on Bot Users](https://api.slack.com/bot-users) (or [create bot user for your workspace](https://my.slack.com/services/new/bot)). Take note of the API token.
-
-### Discord
-
-__If you wish to use a Discord webhook:__
+__To use a Discord webhook:__
 
 Webhooks are the easiest way to integrate Reconbot with Discord. Simply follow [this Discord guide](https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks) to create a webhook for your channel.
 You should now have a URL like this:
@@ -44,8 +38,7 @@ https://discordapp.com/api/webhooks/496014874437332490/5783au24jzyEFIaWnfTvJn0gF
 2. Create a virtualenv environment: `virtualenv -p python3 venv`
 3. Activate the virtualenv environment: `source venv/bin/activate`. This will isolate reconbot's dependencies from the rest of your system's dependencies.
 4. Install Python depdendencies: `pip install -r requirements.txt`
-5. Modify `run.py` with your EVE API keys, key groups and Slack/Discord accounts/channels.
-  `whitelist` should contain notification types you're interested in (or `None` to allow all supported types), and `characters` should contain entries for API keys of individual characters.
+5. Modify `reconbot.ini` with your EVE API keys, key groups and Discord accounts/channels.
 6. Execute `python run.py` and wait for notifications to arrive! After the character gets a notification in-game, `reconbot` may take up to 10 minutes to detect the notification.
 
 # Other notes
