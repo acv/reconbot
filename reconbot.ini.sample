@@ -309,7 +309,7 @@ content = Citadel ({0:get_structure_type_from_link(structureShowInfoData)}, "{0:
 
 
 [NotificationFormat TowerAlertMsg]
-content = {0:get_moon(moonID)} POS "{0:get_item(typeID)}" ({0:get_percentage(shieldValue)} shield, {0:get_percentage(armorValue)} armor, {0:get_percentage(hullValue)} hull) under attack by {0:get_character(aggressorID)}'
+content = {0:get_moon(moonID)} POS "{0:get_item(typeID)}" ({0:get_percentage(shieldValue)} shield, {0:get_percentage(armorValue)} armor, {0:get_percentage(hullValue)} hull) under attack by {0:get_character(aggressorID)}
 
 
 [NotificationFormat TowerResourceAlertMsg]
@@ -455,3 +455,6 @@ content = Alliance capital system of {0:get_alliance(allianceID)} has changed to
 
 [NotificationFormat WarRetractedByConcord]
 content = War against {0:get_corporation_or_alliance(againstID)} has been invalidated by CONCORD
+
+[NotificationFormat WarInherited]
+content = War declared by {0:get_corporation_or_alliance(declaredByID)} against {0:get_corporation_or_alliance(againstID)} was inherited by {0:get_corporation_or_alliance(quitterID)} as they left {0:get_corporation_or_alliance(allianceID)}.
